@@ -9,7 +9,7 @@ headers = {"User-Agent": "Firefox"}
 mail_from = ""
 mail_to = ""
 
-tmp_file_tegut = "tegut-angeobte.pdf"
+tmp_file_tegut = "tegut-angebote.pdf"
 
 
 def do_tegut():
