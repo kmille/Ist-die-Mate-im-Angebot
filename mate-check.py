@@ -15,7 +15,7 @@ tmp_file_tegut = "tegut-angebote.pdf"
 def do_tegut():
     print("Checking Tegut Angeote")
     now = arrow.now()
-    resp = requests.get(f"https://static.tegut.com/fileadmin/tegut_upload/Dokumente/Aktuelle_Flugbl%C3%A4tter/tegut-prospekt-kw-{now.week:02}-Hessen-Niedersachsen-Rheinland-Pfalz.pdf", headers=headers)
+    resp = requests.get(f"https://static.tegut.com/fileadmin/tegut_upload/Dokumente/Aktuelle_Flugbl%C3%A4tter/tegut-prospekt-kw-{now.week:02}-2022-Hessen-Niedersachsen-Rheinland-Pfalz.pdf", headers=headers)
     assert resp.status_code == 200
     with open(tmp_file_tegut, "wb") as f:
         f.write(resp.content)
