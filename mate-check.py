@@ -9,7 +9,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import smtplib
 
-headers = {"User-Agent": "Firefox auf Windows."}
+headers = {"User-Agent": "Firefox auf Windows. Ganz bestimmt."}
 
 tmp_file_tegut = "tegut-angebote.pdf"
 

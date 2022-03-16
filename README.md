@@ -46,4 +46,5 @@ chmod +x /home/mate/Ist-die-Mate-im-Angebot/mate-check.py
 
 ### TODO
 - Ausgabe schön machen
+- ToMATEn rausfiltern
 - was wenn ne Exception kommt
