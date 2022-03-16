@@ -10,8 +10,6 @@ from email.mime.text import MIMEText
 import smtplib
 
 headers = {"User-Agent": "Firefox auf Windows."}
-mail_from = ""
-mail_to = ""
 
 tmp_file_tegut = "tegut-angebote.pdf"
 
@@ -22,14 +20,18 @@ smtpfrom = username
 smtpto = ""
 
 
+def get_tegut_angebot_url():
+    now = arrow.now()
+    return f"https://static.tegut.com/fileadmin/tegut_upload/Dokumente/Aktuelle_Flugbl%C3%A4tter/tegut-prospekt-kw-{now.week:02}-2022-Hessen-Niedersachsen-Rheinland-Pfalz.pdf"
+
+
 def do_tegut():
     print("Checking Tegut Angeote")
-    now = arrow.now()
-    resp = requests.get(f"https://static.tegut.com/fileadmin/tegut_upload/Dokumente/Aktuelle_Flugbl%C3%A4tter/tegut-prospekt-kw-{now.week:02}-2022-Hessen-Niedersachsen-Rheinland-Pfalz.pdf", headers=headers)
+    resp = requests.get(get_tegut_angebot_url(), headers=headers)
     assert resp.status_code == 200
     with open(tmp_file_tegut, "wb") as f:
         f.write(resp.content)
-    print(f"Downlaoded tegut angebote to {tmp_file_tegut}")
+    print(f"Downloaded Tegut Angebote to {tmp_file_tegut}")
     p = subprocess.Popen(["pdfgrep", "-i", "mate", tmp_file_tegut], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     p.wait()
     assert p.returncode == 0
@@ -69,7 +71,7 @@ def do_rewe():
     for item in j['items']:
         #print(item['name'])
         if "mate" in item['name'].lower():
-            print(f"REWE HIT\n{json.dumps(item, indent=4)}")
+            #print(f"REWE HIT\n{json.dumps(item, indent=4)}")
             results_rewe.append(item)
     return results_rewe
 
@@ -94,6 +96,7 @@ if __name__ == '__main__':
 
     output = f"## Mate Checker Results {arrow.now().format()} ##\n\n"
     output += "###### BEGIN Tegut ######\n"
+    output += f"Angebote der Woche: {get_tegut_angebot_url()}\n\n"
     output += do_tegut()
     output += "###### END Tegut ######\n\n\n"
     output += "###### BEGIN Rewe ######\n"
