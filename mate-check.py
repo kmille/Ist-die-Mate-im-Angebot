@@ -5,11 +5,21 @@ import requests
 import json
 import subprocess
 
-headers = {"User-Agent": "Firefox"}
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+import smtplib
+
+headers = {"User-Agent": "Firefox auf Windows."}
 mail_from = ""
 mail_to = ""
 
 tmp_file_tegut = "tegut-angebote.pdf"
+
+username = ""
+password = ""
+smtphost = "beeftraeger.wurbz.de:465"
+smtpfrom = username
+smtpto = ""
 
 
 def do_tegut():
@@ -64,17 +74,34 @@ def do_rewe():
     return results_rewe
 
 
+def send_mail(message):
+    # credit: https://www.authsmtp.com/python/index.html
+
+    msg = MIMEMultipart()
+    msg['From'] = smtpfrom
+    msg['To'] = smtpto
+    msg['Subject'] = "Gibt's mal wieder Mate?"
+    msg.attach(MIMEText(message, 'plain'))
+
+    server = smtplib.SMTP_SSL(smtphost)
+    server.login(username, password)
+    server.sendmail(msg['From'], msg['To'], msg.as_string())
+    server.quit()
+    print("Sent mail")
+
+
 if __name__ == '__main__':
-    output = f"#### Mate Checker Results {arrow.now().format()} ####\n"
+
+    output = f"## Mate Checker Results {arrow.now().format()} ##\n\n"
     output += "###### BEGIN Tegut ######\n"
     output += do_tegut()
-    output += "###### END Tegut ######\n"
+    output += "###### END Tegut ######\n\n\n"
     output += "###### BEGIN Rewe ######\n"
     rewe_list = do_rewe()
     for item in rewe_list:
         item_text = f"{item['name']} {item['price']} {item['_links']['image:m']['href']}\n"
         output += item_text
     output += "###### END Rewe ######"
+
     print(output)
-    cmd = f"echo {output} | mail -a 'From:{mail_from}' -s 'nvchecker: new version available' '{mail_to}'"
-    subprocess.Popen(cmd, shell=True)
+    send_mail(output)
