@@ -42,7 +42,7 @@ Sent mail
 
 ### Cronjob
 chmod +x /home/mate/Ist-die-Mate-im-Angebot/mate-check.py
-@daily /home/mate/Ist-die-Mate-im-Angebot/mate-check.py
+@daily /home/mate/Ist-die-Mate-im-Angebot/venv/bin/python mate-check.py
 
 ### TODO
 - Ausgabe schön machen
