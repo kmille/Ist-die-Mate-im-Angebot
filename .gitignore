@@ -1,1 +1,3 @@
 *.pdf
+mate-check-arm
+deploy.sh

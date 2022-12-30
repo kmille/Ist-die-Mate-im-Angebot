@@ -2,6 +2,8 @@
 
 Rewe hat eine API (ist aber leider gesperrt wenn man eine "Server-IP" hat). Für Tegut werden die Angebote mit pdgrep geparst.
 
+UPDATE: die go version funktioniert, die python version nicht!!!!
+
 ### Install
 
 ```bash

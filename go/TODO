@@ -1,0 +1,5 @@
+- auch die links von Rewe parsen
+- Credentials: env/parameter
+    - als Docker?
+    - pdfgrep?
+- sauber machen
